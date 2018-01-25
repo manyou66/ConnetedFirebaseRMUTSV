@@ -4,6 +4,10 @@
 
 
 //Explicit
+
+int myOutput = D0;
+int myDelayTime = 1000; 
+
 //การกำหนดค่าคงที่
 //String wifi_ssid = "";
 #define wifi_ssid "MastreEWTC_2.4G"
@@ -13,9 +17,12 @@
 #define firebaseKey "bmFe0QDnjPruYTYaBv9doTcBO9HG4yd1mPuVLlpv"
 
 int intIndex = 0;
-
+int intSwitch = 0;
 
 void setup() {
+    //  ส่วนที่กำหนด การส่ง Digital Out จากขาของ Node
+    pinMode(myOutput, OUTPUT);
+  
 //  การกำหนดช่องทางในการ monitor 
   Serial.begin(9600);
 
@@ -59,7 +66,16 @@ void loop() {
         intIndex=Firebase.getInt("myTimes");
 
         intIndex++;
-        delay(500);
+        intSwitch=Firebase.getInt("Switch");
+        if(intSwitch==0){
+          //for my output
+            digitalWrite(myOutput, HIGH);   // turn the LED on (HIGH is the voltage level)
+                     
+          }else{
+            digitalWrite(myOutput, LOW);    // turn the LED off by making the voltage LOW
+            }
+        
+        delay(myDelayTime);
         
 
 }//loop
